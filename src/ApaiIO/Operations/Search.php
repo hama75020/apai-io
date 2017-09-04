@@ -27,6 +27,8 @@ namespace ApaiIO\Operations;
  */
 class Search extends AbstractOperation
 {
+    private $currency = '$';
+    
     /**
      * {@inheritdoc}
      */
@@ -159,7 +161,7 @@ class Search extends AbstractOperation
     public function setMinimumPrice($price)
     {
         $this->validatePrice($price);
-        $this->parameters['MinimumPrice'] = $price;
+        $this->parameters['MinimumPrice'] = $price.$this->getCurrency();
 
         return $this;
     }
@@ -185,7 +187,7 @@ class Search extends AbstractOperation
     public function setMaximumPrice($price)
     {
         $this->validatePrice($price);
-        $this->parameters['MaximumPrice'] = $price;
+        $this->parameters['MaximumPrice'] = $price.$this->getCurrency();
 
         return $this;
     }
@@ -277,5 +279,16 @@ class Search extends AbstractOperation
             throw new \InvalidArgumentException(sprintf('%s is an invalid price value. It has to be numeric and >= than 0',
                     $price));
         }
+    }
+    
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
+    
+    public function setCurrency($currency)
+    {
+        $this->currency = $currency;
+        return $this;
     }
 }
